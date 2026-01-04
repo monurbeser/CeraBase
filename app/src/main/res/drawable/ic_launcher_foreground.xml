@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="0.5"
+        android:scaleY="0.5"
+        android:translateX="27"
+        android:translateY="27">
+        <!-- Pottery vase icon -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M54,20 C54,20 46,22 46,30 L46,50 C46,50 44,52 42,58 C40,64 40,70 40,70 L68,70 C68,70 68,64 66,58 C64,52 62,50 62,50 L62,30 C62,22 54,20 54,20 Z"/>
+        <path
+            android:fillColor="#FAF8F5"
+            android:pathData="M54,24 C54,24 48,26 48,32 L48,48 C48,48 46,50 45,54 C44,58 44,64 44,64 L64,64 C64,64 64,58 63,54 C62,50 60,48 60,48 L60,32 C60,26 54,24 54,24 Z"/>
+        <!-- Decorative line -->
+        <path
+            android:fillColor="#D4A574"
+            android:strokeColor="#D4A574"
+            android:strokeWidth="2"
+            android:pathData="M44,54 L64,54"/>
+    </group>
+</vector>
