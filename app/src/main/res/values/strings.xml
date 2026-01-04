@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CeraBase</string>
+    <string name="coming_soon">Yakında...</string>
+
+    <!-- Home Screen -->
+    <string name="category_seger_cones">Seger Koni Tabloları</string>
+    <string name="category_seger_cones_desc">Pişirme sıcaklık referansları</string>
+
+    <string name="category_expansion">Genleşme Katsayıları</string>
+    <string name="category_expansion_desc">Malzeme genleşme değerleri</string>
+
+    <string name="category_oxides">Oksit Yüzdeleri &amp; Etkileri</string>
+    <string name="category_oxides_desc">Renk ve etkileşim rehberi</string>
+
+    <string name="category_clay_formulas">Kil Bünyesi Formülleri</string>
+    <string name="category_clay_formulas_desc">Hazır reçete ve formüller</string>
+
+    <string name="category_troubleshooting">Hata Giderme Rehberi</string>
+    <string name="category_troubleshooting_desc">Sorun çözme önerileri</string>
+</resources>
