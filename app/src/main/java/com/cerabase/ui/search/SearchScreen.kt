@@ -11,6 +11,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.cerabase.data.model.SearchEngine
@@ -41,8 +42,8 @@ fun SearchScreen(
                         colors = TextFieldDefaults.colors(
                             focusedContainerColor = MaterialTheme.colorScheme.surface,
                             unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-                            focusedIndicatorColor = MaterialTheme.colorScheme.transparent,
-                            unfocusedIndicatorColor = MaterialTheme.colorScheme.transparent
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent
                         ),
                         modifier = Modifier.fillMaxWidth()
                     )
