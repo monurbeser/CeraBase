@@ -5,22 +5,39 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
     <group
-        android:scaleX="0.5"
-        android:scaleY="0.5"
-        android:translateX="27"
-        android:translateY="27">
-        <!-- Pottery vase icon -->
+        android:scaleX="0.7"
+        android:scaleY="0.7"
+        android:translateX="16.2"
+        android:translateY="16.2">
+        <!-- Orange ceramic pot - new branding -->
+        <!-- Main pot body -->
         <path
-            android:fillColor="#FFFFFF"
-            android:pathData="M54,20 C54,20 46,22 46,30 L46,50 C46,50 44,52 42,58 C40,64 40,70 40,70 L68,70 C68,70 68,64 66,58 C64,52 62,50 62,50 L62,30 C62,22 54,20 54,20 Z"/>
+            android:fillColor="#FF7F3F"
+            android:pathData="M40,25 C40,25 35,28 35,35 C35,35 32,40 32,50 L32,65 C32,70 36,74 54,74 C72,74 76,70 76,65 L76,50 C76,40 73,35 73,35 C73,28 68,25 68,25 C68,25 60,22 54,22 C48,22 40,25 40,25 Z"/>
+        <!-- Pot rim/top -->
         <path
-            android:fillColor="#FAF8F5"
-            android:pathData="M54,24 C54,24 48,26 48,32 L48,48 C48,48 46,50 45,54 C44,58 44,64 44,64 L64,64 C64,64 64,58 63,54 C62,50 60,48 60,48 L60,32 C60,26 54,24 54,24 Z"/>
-        <!-- Decorative line -->
+            android:fillColor="#FF9950"
+            android:pathData="M40,25 C40,25 38,20 54,18 C70,20 68,25 68,25 L68,30 C68,30 54,32 40,30 Z"/>
+        <!-- Right side vessel (darker) -->
         <path
-            android:fillColor="#D4A574"
-            android:strokeColor="#D4A574"
-            android:strokeWidth="2"
-            android:pathData="M44,54 L64,54"/>
+            android:fillColor="#E85A3F"
+            android:pathData="M62,40 C62,40 70,42 75,50 C75,50 78,55 78,62 C78,62 75,68 68,70 C62,70 60,65 60,60 L60,45 Z"/>
+        <!-- Pot base -->
+        <path
+            android:fillColor="#C74632"
+            android:pathData="M32,65 C32,65 35,72 54,75 C73,72 76,65 76,65 L76,68 C76,72 72,75 54,75 C36,75 32,72 32,68 Z"/>
+        <!-- Vertical lines for texture -->
+        <path
+            android:strokeColor="#FF6F33"
+            android:strokeWidth="1.5"
+            android:pathData="M45,30 L45,60"/>
+        <path
+            android:strokeColor="#FF6F33"
+            android:strokeWidth="1.5"
+            android:pathData="M54,25 L54,70"/>
+        <path
+            android:strokeColor="#FF6F33"
+            android:strokeWidth="1.5"
+            android:pathData="M63,30 L63,60"/>
     </group>
 </vector>

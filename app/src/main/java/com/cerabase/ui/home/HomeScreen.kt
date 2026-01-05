@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -38,6 +39,7 @@ fun HomeScreen(
     onThemeToggle: () -> Unit,
     onCategoryClick: (Int) -> Unit,
     onSearchClick: () -> Unit,
+    onAboutClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val categories = listOf(
@@ -83,6 +85,13 @@ fun HomeScreen(
                         Icon(
                             imageVector = Icons.Default.Search,
                             contentDescription = "Ara",
+                            tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                    IconButton(onClick = onAboutClick) {
+                        Icon(
+                            imageVector = Icons.Default.Info,
+                            contentDescription = "Hakkında",
                             tint = MaterialTheme.colorScheme.onSurface
                         )
                     }

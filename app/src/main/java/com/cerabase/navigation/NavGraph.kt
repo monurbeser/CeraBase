@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import com.cerabase.ui.about.AboutScreen
 import com.cerabase.ui.clayformulas.ClayFormulasScreen
 import com.cerabase.ui.expansion.ExpansionScreen
 import com.cerabase.ui.home.HomeScreen
@@ -19,6 +20,7 @@ sealed class Screen {
     object Splash : Screen()
     object Home : Screen()
     object Search : Screen()
+    object About : Screen()
     object SegerCones : Screen()
     object Expansion : Screen()
     object Oxides : Screen()
@@ -57,6 +59,13 @@ fun NavGraph(
                     }
                 },
                 onSearchClick = { currentScreen = Screen.Search },
+                onAboutClick = { currentScreen = Screen.About },
+                modifier = modifier
+            )
+        }
+        Screen.About -> {
+            AboutScreen(
+                onBackClick = { currentScreen = Screen.Home },
                 modifier = modifier
             )
         }
