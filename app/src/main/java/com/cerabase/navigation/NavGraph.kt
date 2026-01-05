@@ -10,6 +10,7 @@ import com.cerabase.ui.clayformulas.ClayFormulasScreen
 import com.cerabase.ui.expansion.ExpansionScreen
 import com.cerabase.ui.home.HomeScreen
 import com.cerabase.ui.oxides.OxidesScreen
+import com.cerabase.ui.search.SearchScreen
 import com.cerabase.ui.segercones.SegerConesScreen
 import com.cerabase.ui.splash.SplashScreen
 import com.cerabase.ui.troubleshooting.TroubleshootingScreen
@@ -17,6 +18,7 @@ import com.cerabase.ui.troubleshooting.TroubleshootingScreen
 sealed class Screen {
     object Splash : Screen()
     object Home : Screen()
+    object Search : Screen()
     object SegerCones : Screen()
     object Expansion : Screen()
     object Oxides : Screen()
@@ -51,6 +53,24 @@ fun NavGraph(
                         2 -> Screen.Oxides
                         3 -> Screen.ClayFormulas
                         4 -> Screen.Troubleshooting
+                        else -> Screen.Home
+                    }
+                },
+                onSearchClick = { currentScreen = Screen.Search },
+                modifier = modifier
+            )
+        }
+        Screen.Search -> {
+            SearchScreen(
+                onBackClick = { currentScreen = Screen.Home },
+                onResultClick = { result ->
+                    // Navigate to appropriate category based on result
+                    currentScreen = when (result.category) {
+                        "seger_cones" -> Screen.SegerCones
+                        "expansion" -> Screen.Expansion
+                        "oxides" -> Screen.Oxides
+                        "clay_formulas" -> Screen.ClayFormulas
+                        "troubleshooting" -> Screen.Troubleshooting
                         else -> Screen.Home
                     }
                 },
