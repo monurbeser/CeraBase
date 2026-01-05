@@ -5,15 +5,19 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Science
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.cerabase.data.model.Oxide
 import com.cerabase.data.model.OxideData
+import com.cerabase.data.repository.FavoriteRepository
 import com.cerabase.data.repository.UsageTrackingRepository
 import com.cerabase.ui.components.InfoCard
 import kotlinx.coroutines.launch
@@ -23,6 +27,7 @@ import kotlinx.coroutines.launch
 fun OxidesScreen(
     onBackClick: () -> Unit,
     usageTrackingRepository: UsageTrackingRepository? = null,
+    favoriteRepository: FavoriteRepository? = null,
     modifier: Modifier = Modifier
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -96,7 +101,11 @@ fun OxidesScreen(
                 }
 
                 items(filteredOxides) { oxide ->
-                    OxideCard(oxide)
+                    OxideCard(
+                        oxide = oxide,
+                        favoriteRepository = favoriteRepository,
+                        coroutineScope = coroutineScope
+                    )
                 }
             }
         }
@@ -104,7 +113,13 @@ fun OxidesScreen(
 }
 
 @Composable
-fun OxideCard(oxide: Oxide) {
+fun OxideCard(
+    oxide: Oxide,
+    favoriteRepository: FavoriteRepository? = null,
+    coroutineScope: kotlinx.coroutines.CoroutineScope? = null
+) {
+    val isFavorite by favoriteRepository?.isFavorite("oxide_${oxide.name.lowercase().replace(" ", "_")}")?.collectAsState(initial = false) ?: remember { kotlinx.compose.runtime.mutableStateOf(false) }
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
@@ -138,12 +153,36 @@ fun OxideCard(oxide: Oxide) {
                     )
                 }
 
-                Icon(
-                    imageVector = Icons.Default.Science,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
-                    modifier = Modifier.size(32.dp)
-                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Science,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
+                        modifier = Modifier.size(32.dp)
+                    )
+
+                    IconButton(
+                        onClick = {
+                            coroutineScope?.launch {
+                                favoriteRepository?.toggleFavorite(
+                                    itemId = "oxide_${oxide.name.lowercase().replace(" ", "_")}",
+                                    category = "oxides",
+                                    title = oxide.name,
+                                    subtitle = oxide.formula
+                                )
+                            }
+                        }
+                    ) {
+                        Icon(
+                            imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                            contentDescription = if (isFavorite) "Favorilerden Çıkart" else "Favorilere Ekle",
+                            tint = if (isFavorite) Color(0xFFE85A3F) else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                        )
+                    }
+                }
             }
 
             Divider()

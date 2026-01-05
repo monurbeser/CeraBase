@@ -7,18 +7,24 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.cerabase.data.model.SegerCone
 import com.cerabase.data.model.SegerConeData
+import com.cerabase.data.repository.FavoriteRepository
 import com.cerabase.data.repository.UsageTrackingRepository
 import com.cerabase.ui.components.InfoCard
 import com.cerabase.ui.util.ClipboardUtil
@@ -29,6 +35,7 @@ import kotlinx.coroutines.launch
 fun SegerConesScreen(
     onBackClick: () -> Unit,
     usageTrackingRepository: UsageTrackingRepository? = null,
+    favoriteRepository: FavoriteRepository? = null,
     modifier: Modifier = Modifier
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -49,6 +56,11 @@ fun SegerConesScreen(
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(Icons.Default.ArrowBack, "Geri")
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* Favorites page toggle will be handled by card buttons */ }) {
+                        Icon(Icons.Default.FavoriteBorder, "Favorilere Ekle", tint = MaterialTheme.colorScheme.onPrimary)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -74,14 +86,24 @@ fun SegerConesScreen(
             }
 
             items(SegerConeData.cones) { cone ->
-                SegerConeCard(cone)
+                SegerConeCard(
+                    cone = cone,
+                    favoriteRepository = favoriteRepository,
+                    coroutineScope = coroutineScope
+                )
             }
         }
     }
 }
 
 @Composable
-fun SegerConeCard(cone: SegerCone) {
+fun SegerConeCard(
+    cone: SegerCone,
+    favoriteRepository: FavoriteRepository? = null,
+    coroutineScope: kotlinx.coroutines.CoroutineScope? = null
+) {
+    val isFavorite by favoriteRepository?.isFavorite("cone_${cone.number}")?.collectAsState(initial = false) ?: remember { kotlinx.compose.runtime.mutableStateOf(false) }
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
@@ -148,6 +170,26 @@ fun SegerConeCard(cone: SegerCone) {
                     text = cone.usage,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
+                )
+            }
+
+            // Favorite button
+            IconButton(
+                onClick = {
+                    coroutineScope?.launch {
+                        favoriteRepository?.toggleFavorite(
+                            itemId = "cone_${cone.number}",
+                            category = "seger_cones",
+                            title = "Cone ${cone.number}",
+                            subtitle = "${cone.temperatureCelsius}°C / ${cone.temperatureFahrenheit}°F"
+                        )
+                    }
+                }
+            ) {
+                Icon(
+                    imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                    contentDescription = if (isFavorite) "Favorilerden Çıkart" else "Favorilere Ekle",
+                    tint = if (isFavorite) Color(0xFFE85A3F) else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                 )
             }
         }

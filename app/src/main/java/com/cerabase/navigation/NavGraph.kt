@@ -9,6 +9,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.cerabase.data.database.CeraBaseDatabase
 import com.cerabase.data.repository.CustomClayFormulaRepository
+import com.cerabase.data.repository.FavoriteRepository
+import com.cerabase.data.repository.SearchHistoryRepository
 import com.cerabase.data.repository.UsageTrackingRepository
 import com.cerabase.ui.about.AboutScreen
 import com.cerabase.ui.clayformulas.ClayFormulasScreen
@@ -55,7 +57,8 @@ fun NavGraph(
     val database = remember { CeraBaseDatabase.getDatabase(context) }
     val customFormulaRepository = remember { CustomClayFormulaRepository(database.customClayFormulaDao()) }
     val usageTrackingRepository = remember { UsageTrackingRepository(database.usageTrackingDao()) }
-    val favoriteRepository = remember { com.cerabase.data.repository.FavoriteRepository(database.favoriteDao()) }
+    val favoriteRepository = remember { FavoriteRepository(database.favoriteDao()) }
+    val searchHistoryRepository = remember { SearchHistoryRepository(database.searchHistoryDao()) }
 
     when (currentScreen) {
         Screen.Splash -> {
@@ -146,6 +149,7 @@ fun NavGraph(
                         else -> Screen.Home
                     }
                 },
+                searchHistoryRepository = searchHistoryRepository,
                 modifier = modifier
             )
         }
@@ -153,6 +157,7 @@ fun NavGraph(
             SegerConesScreen(
                 onBackClick = { currentScreen = Screen.Home },
                 usageTrackingRepository = usageTrackingRepository,
+                favoriteRepository = favoriteRepository,
                 modifier = modifier
             )
         }
@@ -160,6 +165,7 @@ fun NavGraph(
             ExpansionScreen(
                 onBackClick = { currentScreen = Screen.Home },
                 usageTrackingRepository = usageTrackingRepository,
+                favoriteRepository = favoriteRepository,
                 modifier = modifier
             )
         }
@@ -167,6 +173,7 @@ fun NavGraph(
             OxidesScreen(
                 onBackClick = { currentScreen = Screen.Home },
                 usageTrackingRepository = usageTrackingRepository,
+                favoriteRepository = favoriteRepository,
                 modifier = modifier
             )
         }
@@ -174,6 +181,7 @@ fun NavGraph(
             ClayFormulasScreen(
                 onBackClick = { currentScreen = Screen.Home },
                 usageTrackingRepository = usageTrackingRepository,
+                favoriteRepository = favoriteRepository,
                 modifier = modifier
             )
         }
@@ -181,6 +189,7 @@ fun NavGraph(
             TroubleshootingScreen(
                 onBackClick = { currentScreen = Screen.Home },
                 usageTrackingRepository = usageTrackingRepository,
+                favoriteRepository = favoriteRepository,
                 modifier = modifier
             )
         }

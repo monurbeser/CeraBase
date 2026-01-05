@@ -6,14 +6,18 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.cerabase.data.model.ClayFormula
 import com.cerabase.data.model.ClayFormulaData
+import com.cerabase.data.repository.FavoriteRepository
 import com.cerabase.data.repository.UsageTrackingRepository
 import com.cerabase.ui.components.InfoCard
 import kotlinx.coroutines.launch
@@ -23,6 +27,7 @@ import kotlinx.coroutines.launch
 fun ClayFormulasScreen(
     onBackClick: () -> Unit,
     usageTrackingRepository: UsageTrackingRepository? = null,
+    favoriteRepository: FavoriteRepository? = null,
     modifier: Modifier = Modifier
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -96,7 +101,11 @@ fun ClayFormulasScreen(
                 }
 
                 items(filteredFormulas) { formula ->
-                    ClayFormulaCard(formula)
+                    ClayFormulaCard(
+                        formula = formula,
+                        favoriteRepository = favoriteRepository,
+                        coroutineScope = coroutineScope
+                    )
                 }
             }
         }
@@ -104,8 +113,13 @@ fun ClayFormulasScreen(
 }
 
 @Composable
-fun ClayFormulaCard(formula: ClayFormula) {
+fun ClayFormulaCard(
+    formula: ClayFormula,
+    favoriteRepository: FavoriteRepository? = null,
+    coroutineScope: kotlinx.coroutines.CoroutineScope? = null
+) {
     var expanded by remember { mutableStateOf(false) }
+    val isFavorite by favoriteRepository?.isFavorite("formula_${formula.name.lowercase().replace(" ", "_").replace("/", "_")}")?.collectAsState(initial = false) ?: remember { kotlinx.compose.runtime.mutableStateOf(false) }
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -120,13 +134,39 @@ fun ClayFormulaCard(formula: ClayFormula) {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            // Başlık
-            Text(
-                text = formula.name,
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
-            )
+            // Başlık ve Favorite Button
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = formula.name,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.weight(1f)
+                )
+
+                IconButton(
+                    onClick = {
+                        coroutineScope?.launch {
+                            favoriteRepository?.toggleFavorite(
+                                itemId = "formula_${formula.name.lowercase().replace(" ", "_").replace("/", "_")}",
+                                category = "clay_formulas",
+                                title = formula.name,
+                                subtitle = "Type: ${formula.type}, Cone: ${formula.cone}"
+                            )
+                        }
+                    }
+                ) {
+                    Icon(
+                        imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                        contentDescription = if (isFavorite) "Favorilerden Çıkart" else "Favorilere Ekle",
+                        tint = if (isFavorite) Color(0xFFE85A3F) else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                    )
+                }
+            }
 
             // Tip ve Koni
             Row(

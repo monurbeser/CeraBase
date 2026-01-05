@@ -9,10 +9,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.cerabase.data.model.TroubleshootingItem
 import com.cerabase.data.model.TroubleshootingData
+import com.cerabase.data.repository.FavoriteRepository
 import com.cerabase.data.repository.UsageTrackingRepository
 import com.cerabase.ui.components.InfoCard
 import kotlinx.coroutines.launch
@@ -22,6 +24,7 @@ import kotlinx.coroutines.launch
 fun TroubleshootingScreen(
     onBackClick: () -> Unit,
     usageTrackingRepository: UsageTrackingRepository? = null,
+    favoriteRepository: FavoriteRepository? = null,
     modifier: Modifier = Modifier
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -95,7 +98,11 @@ fun TroubleshootingScreen(
                 }
 
                 items(filteredItems) { item ->
-                    TroubleshootingCard(item)
+                    TroubleshootingCard(
+                        item = item,
+                        favoriteRepository = favoriteRepository,
+                        coroutineScope = coroutineScope
+                    )
                 }
             }
         }
@@ -103,8 +110,13 @@ fun TroubleshootingScreen(
 }
 
 @Composable
-fun TroubleshootingCard(item: TroubleshootingItem) {
+fun TroubleshootingCard(
+    item: TroubleshootingItem,
+    favoriteRepository: FavoriteRepository? = null,
+    coroutineScope: kotlinx.coroutines.CoroutineScope? = null
+) {
     var expanded by remember { mutableStateOf(false) }
+    val isFavorite by favoriteRepository?.isFavorite("troubleshooting_${item.problem.lowercase().replace(" ", "_").replace("/", "_")}")?.collectAsState(initial = false) ?: remember { kotlinx.compose.runtime.mutableStateOf(false) }
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -119,7 +131,7 @@ fun TroubleshootingCard(item: TroubleshootingItem) {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // Başlık ve kategori
+            // Başlık, kategori, ve favorite button
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -145,12 +157,33 @@ fun TroubleshootingCard(item: TroubleshootingItem) {
                     }
                 }
 
-                IconButton(onClick = { expanded = !expanded }) {
-                    Icon(
-                        imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                        contentDescription = if (expanded) "Kapat" else "Aç",
-                        tint = MaterialTheme.colorScheme.primary
-                    )
+                Row {
+                    IconButton(
+                        onClick = {
+                            coroutineScope?.launch {
+                                favoriteRepository?.toggleFavorite(
+                                    itemId = "troubleshooting_${item.problem.lowercase().replace(" ", "_").replace("/", "_")}",
+                                    category = "troubleshooting",
+                                    title = item.problem,
+                                    subtitle = item.category
+                                )
+                            }
+                        }
+                    ) {
+                        Icon(
+                            imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                            contentDescription = if (isFavorite) "Favorilerden Çıkart" else "Favorilere Ekle",
+                            tint = if (isFavorite) Color(0xFFE85A3F) else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                        )
+                    }
+
+                    IconButton(onClick = { expanded = !expanded }) {
+                        Icon(
+                            imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                            contentDescription = if (expanded) "Kapat" else "Aç",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
                 }
             }
 

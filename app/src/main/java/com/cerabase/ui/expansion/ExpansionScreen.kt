@@ -6,15 +6,19 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.cerabase.data.model.ExpansionCoefficient
 import com.cerabase.data.model.ExpansionCoefficientData
+import com.cerabase.data.repository.FavoriteRepository
 import com.cerabase.data.repository.UsageTrackingRepository
 import com.cerabase.ui.components.InfoCard
 import kotlinx.coroutines.launch
@@ -24,6 +28,7 @@ import kotlinx.coroutines.launch
 fun ExpansionScreen(
     onBackClick: () -> Unit,
     usageTrackingRepository: UsageTrackingRepository? = null,
+    favoriteRepository: FavoriteRepository? = null,
     modifier: Modifier = Modifier
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -100,7 +105,11 @@ fun ExpansionScreen(
                 }
 
                 items(filteredData) { item ->
-                    ExpansionCard(item)
+                    ExpansionCard(
+                        item = item,
+                        favoriteRepository = favoriteRepository,
+                        coroutineScope = coroutineScope
+                    )
                 }
             }
         }
@@ -108,7 +117,13 @@ fun ExpansionScreen(
 }
 
 @Composable
-fun ExpansionCard(item: ExpansionCoefficient) {
+fun ExpansionCard(
+    item: ExpansionCoefficient,
+    favoriteRepository: FavoriteRepository? = null,
+    coroutineScope: kotlinx.coroutines.CoroutineScope? = null
+) {
+    val isFavorite by favoriteRepository?.isFavorite("expansion_${item.material.lowercase().replace(" ", "_")}")?.collectAsState(initial = false) ?: remember { kotlinx.compose.runtime.mutableStateOf(false) }
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
@@ -127,23 +142,44 @@ fun ExpansionCard(item: ExpansionCoefficient) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = item.material,
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-
-                Surface(
-                    color = getCoefficientColor(item.coefficient.toFloatOrNull() ?: 0f),
-                    shape = MaterialTheme.shapes.small
-                ) {
+                Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = item.coefficient,
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
-                        style = MaterialTheme.typography.titleMedium,
+                        text = item.material,
+                        style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onPrimary
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+
+                    Surface(
+                        color = getCoefficientColor(item.coefficient.toFloatOrNull() ?: 0f),
+                        shape = MaterialTheme.shapes.small
+                    ) {
+                        Text(
+                            text = item.coefficient,
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
+                }
+
+                IconButton(
+                    onClick = {
+                        coroutineScope?.launch {
+                            favoriteRepository?.toggleFavorite(
+                                itemId = "expansion_${item.material.lowercase().replace(" ", "_")}",
+                                category = "expansion",
+                                title = item.material,
+                                subtitle = "Coefficient: ${item.coefficient}"
+                            )
+                        }
+                    }
+                ) {
+                    Icon(
+                        imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                        contentDescription = if (isFavorite) "Favorilerden Çıkart" else "Favorilere Ekle",
+                        tint = if (isFavorite) Color(0xFFE85A3F) else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                     )
                 }
             }
