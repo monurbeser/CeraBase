@@ -32,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.cerabase.BuildInfo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -149,17 +150,17 @@ fun AboutScreen(
 
                 InfoRow(
                     label = "Sürüm",
-                    value = "1.2.0"
+                    value = BuildInfo.VERSION_NAME
                 )
 
                 InfoRow(
-                    label = "Sürüm Kodu",
-                    value = "2"
+                    label = "Build Numarası",
+                    value = BuildInfo.VERSION_CODE.toString()
                 )
 
                 InfoRow(
                     label = "Paket Adı",
-                    value = "com.cerabase"
+                    value = BuildInfo.PACKAGE_NAME
                 )
             }
 
