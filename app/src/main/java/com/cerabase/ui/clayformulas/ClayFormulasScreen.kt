@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.cerabase.data.model.ClayFormula
 import com.cerabase.data.model.ClayFormulaData
+import com.cerabase.ui.components.InfoCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -77,20 +78,10 @@ fun ClayFormulasScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 item {
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer
-                        )
-                    ) {
-                        Text(
-                            text = "Bu formüller deneyimli sanatçılar tarafından test edilmiş referans reçetelerdir. " +
-                                    "Kendi malzemelerinize göre küçük ayarlamalar gerekebilir. Her zaman test parçası yapın!",
-                            modifier = Modifier.padding(16.dp),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSecondaryContainer
-                        )
-                    }
+                    InfoCard(
+                        text = "Bu formüller deneyimli sanatçılar tarafından test edilmiş referans reçetelerdir. " +
+                                "Kendi malzemelerinize göre küçük ayarlamalar gerekebilir. Her zaman test parçası yapın!"
+                    )
                 }
 
                 items(filteredFormulas) { formula ->

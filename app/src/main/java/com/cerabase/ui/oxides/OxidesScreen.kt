@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.cerabase.data.model.Oxide
 import com.cerabase.data.model.OxideData
+import com.cerabase.ui.components.InfoCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -77,20 +78,10 @@ fun OxidesScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 item {
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer
-                        )
-                    ) {
-                        Text(
-                            text = "Oksitler sırlara ve bünyeye renk kazandırır. Yüzdeler ağırlıkça hesaplanır. " +
-                                    "Oksidasyon (havayla) ve Redüksiyon (havasız) pişirimlerde farklı renkler verir.",
-                            modifier = Modifier.padding(16.dp),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSecondaryContainer
-                        )
-                    }
+                    InfoCard(
+                        text = "Oksitler sırlara ve bünyeye renk kazandırır. Yüzdeler ağırlıkça hesaplanır. " +
+                                "Oksidasyon (havayla) ve Redüksiyon (havasız) pişirimlerde farklı renkler verir."
+                    )
                 }
 
                 items(filteredOxides) { oxide ->

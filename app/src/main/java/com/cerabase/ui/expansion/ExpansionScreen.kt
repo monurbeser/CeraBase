@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.cerabase.data.model.ExpansionCoefficient
 import com.cerabase.data.model.ExpansionCoefficientData
+import com.cerabase.ui.components.InfoCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

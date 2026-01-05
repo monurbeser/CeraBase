@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.cerabase.data.model.TroubleshootingItem
 import com.cerabase.data.model.TroubleshootingData
+import com.cerabase.ui.components.InfoCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -76,20 +77,10 @@ fun TroubleshootingScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 item {
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer
-                        )
-                    ) {
-                        Text(
-                            text = "Seramik üretiminde karşılaşılan yaygın sorunlar, olası nedenleri ve çözüm önerileri. " +
-                                    "Her sorun için önleme yöntemleri de verilmiştir.",
-                            modifier = Modifier.padding(16.dp),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSecondaryContainer
-                        )
-                    }
+                    InfoCard(
+                        text = "Seramik üretiminde karşılaşılan yaygın sorunlar, olası nedenleri ve çözüm önerileri. " +
+                                "Her sorun için önleme yöntemleri de verilmiştir."
+                    )
                 }
 
                 items(filteredItems) { item ->
