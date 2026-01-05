@@ -13,14 +13,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.cerabase.data.model.TroubleshootingItem
 import com.cerabase.data.model.TroubleshootingData
+import com.cerabase.data.repository.UsageTrackingRepository
 import com.cerabase.ui.components.InfoCard
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TroubleshootingScreen(
     onBackClick: () -> Unit,
+    usageTrackingRepository: UsageTrackingRepository? = null,
     modifier: Modifier = Modifier
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(key1 = true) {
+        coroutineScope.launch {
+            usageTrackingRepository?.trackView("troubleshooting_category", "troubleshooting")
+        }
+    }
+
     var selectedCategory by remember { mutableStateOf("Tümü") }
     val categories = listOf("Tümü", "Kurutma/Pişirme", "Tornalama", "Sır", "Sır Yüzeyi", "Renk", "Soğuma")
 

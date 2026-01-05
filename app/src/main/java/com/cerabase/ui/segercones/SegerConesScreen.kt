@@ -8,20 +8,32 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.cerabase.data.model.SegerCone
 import com.cerabase.data.model.SegerConeData
+import com.cerabase.data.repository.UsageTrackingRepository
 import com.cerabase.ui.components.InfoCard
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SegerConesScreen(
     onBackClick: () -> Unit,
+    usageTrackingRepository: UsageTrackingRepository? = null,
     modifier: Modifier = Modifier
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(key1 = true) {
+        coroutineScope.launch {
+            usageTrackingRepository?.trackView("seger_cones_category", "seger_cones")
+        }
+    }
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {

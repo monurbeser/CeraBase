@@ -123,30 +123,35 @@ fun NavGraph(
         Screen.SegerCones -> {
             SegerConesScreen(
                 onBackClick = { currentScreen = Screen.Home },
+                usageTrackingRepository = usageTrackingRepository,
                 modifier = modifier
             )
         }
         Screen.Expansion -> {
             ExpansionScreen(
                 onBackClick = { currentScreen = Screen.Home },
+                usageTrackingRepository = usageTrackingRepository,
                 modifier = modifier
             )
         }
         Screen.Oxides -> {
             OxidesScreen(
                 onBackClick = { currentScreen = Screen.Home },
+                usageTrackingRepository = usageTrackingRepository,
                 modifier = modifier
             )
         }
         Screen.ClayFormulas -> {
             ClayFormulasScreen(
                 onBackClick = { currentScreen = Screen.Home },
+                usageTrackingRepository = usageTrackingRepository,
                 modifier = modifier
             )
         }
         Screen.Troubleshooting -> {
             TroubleshootingScreen(
                 onBackClick = { currentScreen = Screen.Home },
+                usageTrackingRepository = usageTrackingRepository,
                 modifier = modifier
             )
         }
