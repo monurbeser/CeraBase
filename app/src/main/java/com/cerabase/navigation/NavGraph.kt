@@ -14,6 +14,7 @@ import com.cerabase.ui.about.AboutScreen
 import com.cerabase.ui.clayformulas.ClayFormulasScreen
 import com.cerabase.ui.customformulas.CustomFormulasScreen
 import com.cerabase.ui.expansion.ExpansionScreen
+import com.cerabase.ui.favorites.FavoritesScreen
 import com.cerabase.ui.home.HomeScreen
 import com.cerabase.ui.mostused.MostUsedScreen
 import com.cerabase.ui.oxides.OxidesScreen
@@ -27,6 +28,7 @@ sealed class Screen {
     object Home : Screen()
     object Search : Screen()
     object About : Screen()
+    object Favorites : Screen()
     object CustomFormulas : Screen()
     object MostUsed : Screen()
     object SegerCones : Screen()
@@ -49,6 +51,7 @@ fun NavGraph(
     val database = remember { CeraBaseDatabase.getDatabase(context) }
     val customFormulaRepository = remember { CustomClayFormulaRepository(database.customClayFormulaDao()) }
     val usageTrackingRepository = remember { UsageTrackingRepository(database.usageTrackingDao()) }
+    val favoriteRepository = remember { com.cerabase.data.repository.FavoriteRepository(database.favoriteDao()) }
 
     when (currentScreen) {
         Screen.Splash -> {
@@ -74,6 +77,7 @@ fun NavGraph(
                 },
                 onSearchClick = { currentScreen = Screen.Search },
                 onAboutClick = { currentScreen = Screen.About },
+                onFavoritesClick = { currentScreen = Screen.Favorites },
                 onCustomFormulasClick = { currentScreen = Screen.CustomFormulas },
                 onMostUsedClick = { currentScreen = Screen.MostUsed },
                 modifier = modifier
@@ -81,6 +85,13 @@ fun NavGraph(
         }
         Screen.About -> {
             AboutScreen(
+                onBackClick = { currentScreen = Screen.Home },
+                modifier = modifier
+            )
+        }
+        Screen.Favorites -> {
+            FavoritesScreen(
+                repository = favoriteRepository,
                 onBackClick = { currentScreen = Screen.Home },
                 modifier = modifier
             )

@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Search
@@ -40,6 +41,7 @@ fun HomeScreen(
     onCategoryClick: (Int) -> Unit,
     onSearchClick: () -> Unit,
     onAboutClick: () -> Unit = {},
+    onFavoritesClick: () -> Unit = {},
     onCustomFormulasClick: () -> Unit = {},
     onMostUsedClick: () -> Unit = {},
     modifier: Modifier = Modifier
@@ -88,6 +90,13 @@ fun HomeScreen(
                             imageVector = Icons.Default.Search,
                             contentDescription = "Ara",
                             tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                    IconButton(onClick = onFavoritesClick) {
+                        Icon(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = "Favorilerim",
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
                     IconButton(onClick = onAboutClick) {
