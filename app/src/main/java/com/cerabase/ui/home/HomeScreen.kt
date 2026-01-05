@@ -1,6 +1,5 @@
 package com.cerabase.ui.home
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.cerabase.R
@@ -37,10 +35,9 @@ data class Category(
 fun HomeScreen(
     isDarkTheme: Boolean,
     onThemeToggle: () -> Unit,
+    onCategoryClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
-
     val categories = listOf(
         Category(
             icon = "🔥",
@@ -102,18 +99,13 @@ fun HomeScreen(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(categories) { category ->
+            items(categories.size) { index ->
+                val category = categories[index]
                 CategoryCard(
                     icon = category.icon,
                     title = stringResource(id = category.titleRes),
                     description = stringResource(id = category.descriptionRes),
-                    onClick = {
-                        Toast.makeText(
-                            context,
-                            context.getString(R.string.coming_soon),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                    onClick = { onCategoryClick(index) }
                 )
             }
         }
