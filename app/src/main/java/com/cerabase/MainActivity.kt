@@ -26,6 +26,7 @@ class MainActivity : ComponentActivity() {
 
             CeraBaseTheme(darkTheme = isDarkTheme) {
                 NavGraph(
+                    context = this@MainActivity,
                     isDarkTheme = isDarkTheme,
                     onThemeToggle = viewModel::toggleTheme
                 )

@@ -40,6 +40,8 @@ fun HomeScreen(
     onCategoryClick: (Int) -> Unit,
     onSearchClick: () -> Unit,
     onAboutClick: () -> Unit = {},
+    onCustomFormulasClick: () -> Unit = {},
+    onMostUsedClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val categories = listOf(
@@ -124,6 +126,24 @@ fun HomeScreen(
                     title = stringResource(id = category.titleRes),
                     description = stringResource(id = category.descriptionRes),
                     onClick = { onCategoryClick(index) }
+                )
+            }
+
+            item {
+                CategoryCard(
+                    icon = "📝",
+                    title = "Kendi Formüllerim",
+                    description = "Özel clay formüllerinizi oluşturun ve kaydedin",
+                    onClick = onCustomFormulasClick
+                )
+            }
+
+            item {
+                CategoryCard(
+                    icon = "📊",
+                    title = "En Çok Kullanılanlar",
+                    description = "En sık aranan ve kullanılan içerikleri görüntüleyin",
+                    onClick = onMostUsedClick
                 )
             }
         }
