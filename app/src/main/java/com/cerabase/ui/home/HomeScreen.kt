@@ -42,6 +42,7 @@ fun HomeScreen(
     onSearchClick: () -> Unit,
     onAboutClick: () -> Unit = {},
     onFavoritesClick: () -> Unit = {},
+    onTemperatureConverterClick: () -> Unit = {},
     onCustomFormulasClick: () -> Unit = {},
     onMostUsedClick: () -> Unit = {},
     modifier: Modifier = Modifier
@@ -153,6 +154,15 @@ fun HomeScreen(
                     title = "En Çok Kullanılanlar",
                     description = "En sık aranan ve kullanılan içerikleri görüntüleyin",
                     onClick = onMostUsedClick
+                )
+            }
+
+            item {
+                CategoryCard(
+                    icon = "🌡️",
+                    title = "Sıcaklık Dönüştürücü",
+                    description = "Cone, Celsius ve Fahrenheit arasında dönüşüm yapın",
+                    onClick = onTemperatureConverterClick
                 )
             }
         }

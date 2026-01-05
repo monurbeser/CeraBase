@@ -21,6 +21,7 @@ import com.cerabase.ui.oxides.OxidesScreen
 import com.cerabase.ui.search.SearchScreen
 import com.cerabase.ui.segercones.SegerConesScreen
 import com.cerabase.ui.splash.SplashScreen
+import com.cerabase.ui.temperatureconverter.TemperatureConverterScreen
 import com.cerabase.ui.troubleshooting.TroubleshootingScreen
 
 sealed class Screen {
@@ -29,6 +30,7 @@ sealed class Screen {
     object Search : Screen()
     object About : Screen()
     object Favorites : Screen()
+    object TemperatureConverter : Screen()
     object CustomFormulas : Screen()
     object MostUsed : Screen()
     object SegerCones : Screen()
@@ -78,6 +80,7 @@ fun NavGraph(
                 onSearchClick = { currentScreen = Screen.Search },
                 onAboutClick = { currentScreen = Screen.About },
                 onFavoritesClick = { currentScreen = Screen.Favorites },
+                onTemperatureConverterClick = { currentScreen = Screen.TemperatureConverter },
                 onCustomFormulasClick = { currentScreen = Screen.CustomFormulas },
                 onMostUsedClick = { currentScreen = Screen.MostUsed },
                 modifier = modifier
@@ -92,6 +95,12 @@ fun NavGraph(
         Screen.Favorites -> {
             FavoritesScreen(
                 repository = favoriteRepository,
+                onBackClick = { currentScreen = Screen.Home },
+                modifier = modifier
+            )
+        }
+        Screen.TemperatureConverter -> {
+            TemperatureConverterScreen(
                 onBackClick = { currentScreen = Screen.Home },
                 modifier = modifier
             )
