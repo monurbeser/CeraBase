@@ -102,7 +102,8 @@ fun SegerConeCard(
     favoriteRepository: FavoriteRepository? = null,
     coroutineScope: kotlinx.coroutines.CoroutineScope? = null
 ) {
-    val isFavorite by favoriteRepository?.isFavorite("cone_${cone.number}")?.collectAsState(initial = false) ?: remember { kotlinx.compose.runtime.mutableStateOf(false) }
+    val isFavorite by (favoriteRepository?.isFavorite("cone_${cone.number}")?.collectAsState(initial = false)
+        ?: remember { mutableStateOf(false) })
 
     Card(
         modifier = Modifier.fillMaxWidth(),
