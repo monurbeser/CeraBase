@@ -8,6 +8,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -38,6 +40,11 @@ fun HomeScreen(
     onThemeToggle: () -> Unit,
     onCategoryClick: (Int) -> Unit,
     onSearchClick: () -> Unit,
+    onAboutClick: () -> Unit = {},
+    onFavoritesClick: () -> Unit = {},
+    onTemperatureConverterClick: () -> Unit = {},
+    onCustomFormulasClick: () -> Unit = {},
+    onMostUsedClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val categories = listOf(
@@ -86,6 +93,20 @@ fun HomeScreen(
                             tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
+                    IconButton(onClick = onFavoritesClick) {
+                        Icon(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = "Favorilerim",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                    IconButton(onClick = onAboutClick) {
+                        Icon(
+                            imageVector = Icons.Default.Info,
+                            contentDescription = "Hakkında",
+                            tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
                     IconButton(onClick = onThemeToggle) {
                         Icon(
                             imageVector = if (isDarkTheme) Icons.Default.LightMode else Icons.Default.DarkMode,
@@ -115,6 +136,33 @@ fun HomeScreen(
                     title = stringResource(id = category.titleRes),
                     description = stringResource(id = category.descriptionRes),
                     onClick = { onCategoryClick(index) }
+                )
+            }
+
+            item {
+                CategoryCard(
+                    icon = "📝",
+                    title = "Kendi Formüllerim",
+                    description = "Özel clay formüllerinizi oluşturun ve kaydedin",
+                    onClick = onCustomFormulasClick
+                )
+            }
+
+            item {
+                CategoryCard(
+                    icon = "📊",
+                    title = "En Çok Kullanılanlar",
+                    description = "En sık aranan ve kullanılan içerikleri görüntüleyin",
+                    onClick = onMostUsedClick
+                )
+            }
+
+            item {
+                CategoryCard(
+                    icon = "🌡️",
+                    title = "Sıcaklık Dönüştürücü",
+                    description = "Cone, Celsius ve Fahrenheit arasında dönüşüm yapın",
+                    onClick = onTemperatureConverterClick
                 )
             }
         }

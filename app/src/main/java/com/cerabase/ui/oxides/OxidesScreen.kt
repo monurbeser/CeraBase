@@ -14,14 +14,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.cerabase.data.model.Oxide
 import com.cerabase.data.model.OxideData
+import com.cerabase.data.repository.UsageTrackingRepository
 import com.cerabase.ui.components.InfoCard
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OxidesScreen(
     onBackClick: () -> Unit,
+    usageTrackingRepository: UsageTrackingRepository? = null,
     modifier: Modifier = Modifier
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(key1 = true) {
+        coroutineScope.launch {
+            usageTrackingRepository?.trackView("oxides_category", "oxides")
+        }
+    }
+
     var selectedFiringType by remember { mutableStateOf("Tümü") }
     val firingTypes = listOf("Tümü", "Oksidasyon", "Redüksiyon", "Her ikisi")
 

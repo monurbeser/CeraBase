@@ -14,14 +14,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.cerabase.data.model.ClayFormula
 import com.cerabase.data.model.ClayFormulaData
+import com.cerabase.data.repository.UsageTrackingRepository
 import com.cerabase.ui.components.InfoCard
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClayFormulasScreen(
     onBackClick: () -> Unit,
+    usageTrackingRepository: UsageTrackingRepository? = null,
     modifier: Modifier = Modifier
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(key1 = true) {
+        coroutineScope.launch {
+            usageTrackingRepository?.trackView("clay_formulas_category", "clay_formulas")
+        }
+    }
+
     var selectedType by remember { mutableStateOf("Tümü") }
     val types = listOf("Tümü", "Porselen", "Taş Bünye", "Gres", "Toprak Bünye", "Raku", "Heykel", "Fayans", "Renkli", "Özel")
 
