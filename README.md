@@ -68,10 +68,11 @@ Seramik sanatçıları ve öğrencileri için kapsamlı referans ve yardımcı u
 
 #### 5. ❤️ Favoriler/Bookmarks Sistemi
 - Tüm içerikleri favorilere ekleyin
-- Kalp ikonu ile hızlı erişim
+- Kalp ikonu ile hızlı erişim (tüm detail ekranlarında)
 - Kategori bazında gruplandırma
 - Ayrı Favoriler ekranında görüntüleme
 - Silme ve yönetim işlemleri
+- Detail ekranlarında inline favorite butonu
 
 #### 6. 📋 Copy-to-Clipboard
 - Teknik verileri kolayca kopyalayın
@@ -86,13 +87,33 @@ Seramik sanatçıları ve öğrencileri için kapsamlı referans ve yardımcı u
 - Ortak konilerin sıcaklık değerleri
 - Kiln hesaplamalarında kullanım
 
+#### 8. ⭐ Detail Ekranlarında Favorite Butonları
+- Tüm kategori detail ekranlarında kalp ikonu
+- Hızlı favorilere ekleme/çıkarma
+- Responsive UI (turuncu renkte gösterimi)
+- Persistent favorit durumu
+- SegerCones, Oxides, Expansion, Clay Formulas, Troubleshooting
+
+#### 9. 🔍 Gelişmiş Arama - Fuzzy Match & Arama Geçmişi
+- **Fuzzy Matching Algorithm**: Yazım hataları toleranslı arama
+  - Minimum %40 match threshold
+  - Relevans puanına göre sırala
+  - Partial matches ve character sequences
+- **Search History**: Son aramaları kaydet ve hızlıca tekrar kullan
+  - Benzersiz sorguları göster
+  - Tıkla ve tekrar ara
+  - Arama ekranında hızlı erişim
+
 ### 📈 İçerik Yönetimi
 
 #### 🔍 Gelişmiş Arama
 - Tüm kategorilerde full-text arama
+- 🎯 **Fuzzy Matching** - Yazım hataları toleranslı arama
+- 📜 **Arama Geçmişi** - Son aramaları kaydedip hızlıca tekrar kullan
 - Kategori bazında sonuç filtreleme
 - Hızlı ve doğru arama sonuçları
 - İçerik kategorilerine direkt yönlendirme
+- Sonuçlar relevansa göre sıralanır
 
 #### 📌 Görüntüleme İstatistikleri
 - Tüm içeriğin görüntülenme sayısı takibi
@@ -140,8 +161,9 @@ Seramik sanatçıları ve öğrencileri için kapsamlı referans ve yardımcı u
 - `favorites` - Kullanıcı favori öğeleri
 - `custom_clay_formulas` - Kullanıcı tarafından oluşturulan formüller
 - `usage_tracking` - İçerik görüntülenme istatistikleri
+- `search_history` - Kullanıcı arama geçmişi
 
-### Versiyon: 2
+### Versiyon: 3
 
 ## 🚀 Kurulum
 
@@ -167,15 +189,21 @@ Seramik sanatçıları ve öğrencileri için kapsamlı referans ve yardımcı u
 - 💾 **Custom Formula Storage**: Kendi clay formüllerinizi oluşturun ve kaydedin
 - 📊 **Most Used Items**: En çok kullanılan içerikleri keşfedin
 - ❤️ **Favorites System**: Sevdiğiniz içerikleri favorilere ekleyin
+- ⭐ **Favorite Buttons**: Tüm detail ekranlarında kalp ikonu ile favorilere hızlıca ekle/çıkar
 - 📋 **Copy to Clipboard**: Teknik verileri kolayca kopyalayın
 - 🌡️ **Temperature Converter**: Seger cone, Celsius ve Fahrenheit dönüşümü
+- 🔍 **Fuzzy Match Search**: Yazım hatalarına toleranslı akıllı arama
+- 📜 **Search History**: Son aramaları kaydet ve hızlıca tekrar kullan
 - ℹ️ **About Screen**: Pia Ceramic bilgisi ve sürüm detayları
 
 #### 🔧 İyileştirmeler
 - View tracking tüm kategori ekranlarında
 - Dinamik build numarası About ekranında
 - Enhanced UI/UX seramik renk şeması ile
-- Database versiyonu 1 → 2 (custom formulas ve usage tracking)
+- Database versiyonu 1 → 2 → 3 (custom formulas, usage tracking, search history)
+- Fuzzy matching algoritması arama sonuçlarını relevansa göre sırala
+- Arama sonuçları yazım hatalarına toleranslı
+- Search history persistence ve quick access
 
 #### 🐛 Bug Fixes
 - BuildConfig import sorunları çözüldü
@@ -207,6 +235,8 @@ Home (Ana Sayfa)
 
 Arama
 ├── Tüm kategorilerde arama
+├── 🔍 Fuzzy match (yazım hataları toleranslı)
+├── 📜 Arama geçmişi
 └── Kategori filtreleme
 
 Favorilerim
