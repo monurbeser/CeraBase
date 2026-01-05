@@ -119,8 +119,8 @@ fun ClayFormulaCard(
     coroutineScope: kotlinx.coroutines.CoroutineScope? = null
 ) {
     var expanded by remember { mutableStateOf(false) }
-    val isFavorite by (favoriteRepository?.isFavorite("formula_${formula.name.lowercase().replace(" ", "_").replace("/", "_")}")?.collectAsState(initial = false)
-        ?: remember { mutableStateOf(false) })
+    val isFavorite = favoriteRepository?.isFavorite("formula_${formula.name.lowercase().replace(" ", "_").replace("/", "_")}")
+        ?.collectAsState(initial = false)?.value ?: false
 
     Card(
         modifier = Modifier.fillMaxWidth(),

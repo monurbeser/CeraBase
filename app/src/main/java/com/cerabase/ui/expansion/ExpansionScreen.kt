@@ -122,8 +122,8 @@ fun ExpansionCard(
     favoriteRepository: FavoriteRepository? = null,
     coroutineScope: kotlinx.coroutines.CoroutineScope? = null
 ) {
-    val isFavorite by (favoriteRepository?.isFavorite("expansion_${item.material.lowercase().replace(" ", "_")}")?.collectAsState(initial = false)
-        ?: remember { mutableStateOf(false) })
+    val isFavorite = favoriteRepository?.isFavorite("expansion_${item.material.lowercase().replace(" ", "_")}")
+        ?.collectAsState(initial = false)?.value ?: false
 
     Card(
         modifier = Modifier.fillMaxWidth(),

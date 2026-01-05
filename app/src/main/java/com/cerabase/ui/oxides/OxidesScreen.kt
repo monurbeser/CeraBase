@@ -118,8 +118,8 @@ fun OxideCard(
     favoriteRepository: FavoriteRepository? = null,
     coroutineScope: kotlinx.coroutines.CoroutineScope? = null
 ) {
-    val isFavorite by (favoriteRepository?.isFavorite("oxide_${oxide.name.lowercase().replace(" ", "_")}")?.collectAsState(initial = false)
-        ?: remember { mutableStateOf(false) })
+    val isFavorite = favoriteRepository?.isFavorite("oxide_${oxide.name.lowercase().replace(" ", "_")}")
+        ?.collectAsState(initial = false)?.value ?: false
 
     Card(
         modifier = Modifier.fillMaxWidth(),
