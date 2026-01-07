@@ -23,6 +23,9 @@ import com.cerabase.ui.segercones.SegerConesScreen
 import com.cerabase.ui.splash.SplashScreen
 import com.cerabase.ui.temperatureconverter.TemperatureConverterScreen
 import com.cerabase.ui.troubleshooting.TroubleshootingScreen
+import com.cerabase.ui.dailyworknotes.DailyWorkNotesScreen
+import com.cerabase.ui.dailyworknotes.CreateWorkNoteScreen
+import com.cerabase.data.repository.WorkNoteRepository
 
 sealed class Screen {
     object Splash : Screen()
@@ -38,6 +41,8 @@ sealed class Screen {
     object Oxides : Screen()
     object ClayFormulas : Screen()
     object Troubleshooting : Screen()
+    object DailyWorkNotes : Screen()
+    object CreateWorkNote : Screen()
 }
 
 @Composable
@@ -54,6 +59,7 @@ fun NavGraph(
     val customFormulaRepository = remember { CustomClayFormulaRepository(database.customClayFormulaDao()) }
     val usageTrackingRepository = remember { UsageTrackingRepository(database.usageTrackingDao()) }
     val favoriteRepository = remember { com.cerabase.data.repository.FavoriteRepository(database.favoriteDao()) }
+    val workNoteRepository = remember { WorkNoteRepository(database.workNoteDao()) }
 
     when (currentScreen) {
         Screen.Splash -> {
@@ -83,6 +89,7 @@ fun NavGraph(
                 onTemperatureConverterClick = { currentScreen = Screen.TemperatureConverter },
                 onCustomFormulasClick = { currentScreen = Screen.CustomFormulas },
                 onMostUsedClick = { currentScreen = Screen.MostUsed },
+                onDailyWorkNotesClick = { currentScreen = Screen.DailyWorkNotes },
                 modifier = modifier
             )
         }
@@ -172,6 +179,22 @@ fun NavGraph(
             TroubleshootingScreen(
                 onBackClick = { currentScreen = Screen.Home },
                 usageTrackingRepository = usageTrackingRepository,
+                modifier = modifier
+            )
+        }
+        Screen.DailyWorkNotes -> {
+            DailyWorkNotesScreen(
+                repository = workNoteRepository,
+                onBackClick = { currentScreen = Screen.Home },
+                onAddNoteClick = { currentScreen = Screen.CreateWorkNote },
+                modifier = modifier
+            )
+        }
+        Screen.CreateWorkNote -> {
+            CreateWorkNoteScreen(
+                repository = workNoteRepository,
+                onBackClick = { currentScreen = Screen.DailyWorkNotes },
+                onNoteSaved = { currentScreen = Screen.DailyWorkNotes },
                 modifier = modifier
             )
         }

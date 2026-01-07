@@ -9,9 +9,10 @@ import androidx.room.RoomDatabase
     entities = [
         FavoriteEntity::class,
         CustomClayFormulaEntity::class,
-        UsageTrackingEntity::class
+        UsageTrackingEntity::class,
+        WorkNoteEntity::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class CeraBaseDatabase : RoomDatabase() {
@@ -19,6 +20,7 @@ abstract class CeraBaseDatabase : RoomDatabase() {
     abstract fun favoriteDao(): FavoriteDao
     abstract fun customClayFormulaDao(): CustomClayFormulaDao
     abstract fun usageTrackingDao(): UsageTrackingDao
+    abstract fun workNoteDao(): WorkNoteDao
 
     companion object {
         @Volatile

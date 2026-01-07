@@ -45,6 +45,7 @@ fun HomeScreen(
     onTemperatureConverterClick: () -> Unit = {},
     onCustomFormulasClick: () -> Unit = {},
     onMostUsedClick: () -> Unit = {},
+    onDailyWorkNotesClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val categories = listOf(
@@ -163,6 +164,15 @@ fun HomeScreen(
                     title = "Sıcaklık Dönüştürücü",
                     description = "Cone, Celsius ve Fahrenheit arasında dönüşüm yapın",
                     onClick = onTemperatureConverterClick
+                )
+            }
+
+            item {
+                CategoryCard(
+                    icon = "📋",
+                    title = "Günlük Çalışma Notları",
+                    description = "Günlük çalışmalarınızı kaydedin ve PDF çıktısı alın",
+                    onClick = onDailyWorkNotesClick
                 )
             }
         }
